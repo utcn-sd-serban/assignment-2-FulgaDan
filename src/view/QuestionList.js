@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 
 export default class QuestionList extends Component {
-
     render() {
         const { pageTitle, questions, onCreateQuestion, applyTitleFilter, titleFilter, applyTagsFilter, tagsFilter } = this.props;
         return (
@@ -16,7 +15,7 @@ export default class QuestionList extends Component {
                     </div>
                 </section>
                 <div>
-                    <table border="1">
+                    <tablee className= "table is-narrow" border="1">
                         <thead>
                             <tr>
                                 <th>Title</th>
@@ -39,8 +38,11 @@ export default class QuestionList extends Component {
                                 ))
                             }
                         </tbody>
-                    </table>
+                    </tablee>
+                    <br />
+                    <br />
                     <button onClick={onCreateQuestion}>Add new question</button>
+                    <br />
                     <br />
                     <span>Title Filter: </span><input type="text" value={titleFilter} onChange={applyTitleFilter} />
                     <br />
@@ -50,7 +52,7 @@ export default class QuestionList extends Component {
                             <p>
                                 <strong>Stack-Overflow</strong> by <a href="https://github.com/utcn-sd-serban/assignment-2-FulgaDan">Fulga Dan</a>.
                     Source code can be found on <a href="https://github.com/utcn-sd-serban/assignment-2-FulgaDan">Github</a>.
-                </p>
+                            </p>
                         </div>
                     </footer>
                 </div>
