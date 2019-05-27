@@ -1,10 +1,15 @@
 import {EventEmitter} from 'events'
+import RestClient from '../rest/RestClient';
+import WebSocketListener from '../ws/WebSocketListener';
+
+const client = new RestClient();
+const listener = new WebSocketListener();
 
 class QuestionModel extends EventEmitter {
     constructor(){
         super();
         this.state = {
-            questions: [{
+            questions: [/*{
                 title: "How to dispatch an action?",
                 text: "I need to dispatch an action using Redux",
                 author: "Dave",
@@ -17,30 +22,35 @@ class QuestionModel extends EventEmitter {
                 author: "Anna",
                 date: "03/05/2019",
                 tags: ["Java ", "Maven"]
-            }],
+            }*/],
 
             newQuestion: {
                 title: "",
                 text: "",
-                author: "",
-                date: "",
                 tags: []
-            },
-
-            indexFilter: -1
+            }
         };
     }
 
-    addQuestion(title, text, author, date, tags){
+    loadQuestions(){
+        return client.loadAllQuestions().then(questions => {
+            this.state = {
+                ...this.state,
+                questions: questions
+            };
+            this.emit("change", this.state);
+        })
+    }
+
+    addQuestion(title, text, tags){
+        return client.createQuestion(title, text, tags).then(question => this.appendQuestion(question));
+        
+    }
+
+    appendQuestion(question){
         this.state = {
             ...this.state,
-            questions: this.state.questions.concat([{
-                title: title,
-                text: text,
-                author: author,
-                date: date,
-                tags: tags
-            }])
+            questions: this.state.questions.concat([question])
         };
         this.emit("change", this.state);
     }
@@ -55,24 +65,13 @@ class QuestionModel extends EventEmitter {
         };
         this.emit("change", this.state);
     }
-
-    changeIndexFilter(index){
-        this.state = {
-            ...this.state,
-            indexFilter: index
-        };
-        this.emit("change", this.state);
-    }
-
-    changeTitleFilter(value ){
-        this.state = {
-            ...this.state,
-            searchTitle: value
-            }
-        
-        this.emit("change", this.state);
-    }
 }
+
+listener.on("event", event => {
+    if(event.type == "QUESTION_CREATED"){
+        questionModel.appendQuestion(event.question);
+    }
+});
 
 const questionModel = new QuestionModel();
 export default questionModel;

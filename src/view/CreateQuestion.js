@@ -12,12 +12,6 @@ const CreateQuestion = ({ title, text, author, date,
             <label className = "label">Text: </label>
             <input value = {text} onChange = {e => onChange("text", e.target.value)} />
             <br />
-            <label className = "label">Author: </label>
-            <input value = {author} onChange = {e => onChange("author", e.target.value)}/>
-            <br />
-            <label className = "label">Date: </label>
-            <input value = {date} onChange = {e => onChange("date", e.target.value)}/>
-            <br />
             <label className = "label">Tags: </label>
             <input value = {tags} onChange = {e => onChange("tags", e.target.value)} />
             <br />

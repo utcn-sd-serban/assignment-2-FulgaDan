@@ -1,5 +1,8 @@
 import {EventEmitter} from 'events'
 
+const accessDenied = false;
+const accessGranted = true;
+
 class UserModel extends EventEmitter{
     constructor(){
         super();
@@ -33,6 +36,16 @@ class UserModel extends EventEmitter{
             }])
         };
         this.emit("change", this.state);
+    }
+
+    login(username, password){
+        const userss = this.state.users;
+        for(const i = 0; i < userss.length; ++i){
+            if((userss[i].users.username === username) && (userss[i].users.password === password)){
+                return accessGranted;
+            }
+        }
+        return accessDenied;
     }
 
     changeNewUserProperty(property, value){

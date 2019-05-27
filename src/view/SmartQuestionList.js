@@ -18,6 +18,7 @@ export default class SmartQuestionsList extends Component {
         };
         this.listener = modelState => this.setState(mapModelStateToComponentState(modelState));
         questionModel.addListener("change", this.listener);
+        questionsListPresenter.onInitt();
     }
 
 
